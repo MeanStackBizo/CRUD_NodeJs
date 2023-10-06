@@ -36,19 +36,16 @@ export const getById=async (req:Request,res:Response)=>{
      }
 }
 
-export const DeleteById=async (req:Request,res:Response)=>{
-     try{
-          const deletebook=await book.findByIdAndDelete(req.params.id);
-          if(!deletebook){
-                res.status(404).json({'message':"Not Found"});
-          }
-          res.status(204).send();
-     }catch(er){
-          res.status(505).json({message:er});
+
+
+export const DeleteById = async (req: Request, res: Response) => {
+     try {
+       const deletebook = await book.findByIdAndDelete(req.params.id);
+       if (!deletebook) {
+         return res.status(404).json({ 'message': "Not Found" }); 
+       }
+       res.status(200).json({'message':"Delete success"});
+     } catch (er) {
+       res.status(500).json({ message: er }); 
      }
-//     await book.findByIdAndDelete(req.params._id).then(()=>{
-//      res.status(202).json({message:"Delete"});
-//     }).catch(er=>{
-//         
-//     })
-}
+   }

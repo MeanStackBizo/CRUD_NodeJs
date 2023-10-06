@@ -56,17 +56,12 @@ const DeleteById = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     try {
         const deletebook = yield book_1.default.findByIdAndDelete(req.params.id);
         if (!deletebook) {
-            res.status(404).json({ 'message': "Not Found" });
+            return res.status(404).json({ 'message': "Not Found" });
         }
-        res.status(204).send();
+        res.status(200).json({ 'message': "Delete success" });
     }
     catch (er) {
-        res.status(505).json({ message: er });
+        res.status(500).json({ message: er });
     }
-    //     await book.findByIdAndDelete(req.params._id).then(()=>{
-    //      res.status(202).json({message:"Delete"});
-    //     }).catch(er=>{
-    //         
-    //     })
 });
 exports.DeleteById = DeleteById;
