@@ -36,8 +36,6 @@ export const getById=async (req:Request,res:Response)=>{
      }
 }
 
-
-
 export const DeleteById = async (req: Request, res: Response) => {
      try {
        const deletebook = await book.findByIdAndDelete(req.params.id);
@@ -47,5 +45,17 @@ export const DeleteById = async (req: Request, res: Response) => {
        res.status(200).json({'message':"Delete success"});
      } catch (er) {
        res.status(500).json({ message: er }); 
+     }
+   }
+
+   export const UpdateBYId=async (req:Request,res:Response)=>{
+     try{
+          const updatedBook=await book.findByIdAndUpdate(req.params.id,req.body,{new:true})
+          if(!updatedBook){
+               return res.status(404).json({'message':"Not Found"});
+           }
+           res.json(updatedBook);
+     }catch(er){
+          res.status(500).json({ message: er }); 
      }
    }

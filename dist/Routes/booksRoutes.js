@@ -6,4 +6,5 @@ module.exports = (app) => {
     app.post("/node/AddBook", bookController_1.AddBook);
     app.get("/node/getById/:id", bookController_1.getById);
     app.delete("/node/DeleteById/:id", bookController_1.DeleteById);
+    app.put("/node/UpdateBYId/:id", bookController_1.UpdateBYId);
 };

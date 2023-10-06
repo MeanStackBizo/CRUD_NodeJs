@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DeleteById = exports.getById = exports.AddBook = exports.findAll = void 0;
+exports.UpdateBYId = exports.DeleteById = exports.getById = exports.AddBook = exports.findAll = void 0;
 const book_1 = __importDefault(require("../model/book"));
 const findAll = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -65,3 +65,16 @@ const DeleteById = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.DeleteById = DeleteById;
+const UpdateBYId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const updatedBook = yield book_1.default.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        if (!updatedBook) {
+            return res.status(404).json({ 'message': "Not Found" });
+        }
+        res.json(updatedBook);
+    }
+    catch (er) {
+        res.status(500).json({ message: er });
+    }
+});
+exports.UpdateBYId = UpdateBYId;
