@@ -1,9 +1,9 @@
 import { findAll ,AddBook,getById,DeleteById,UpdateBYId} from "../controller/bookController"
 
-module.exports=(app:any)=>{
-    app.get("/node/allBooks",findAll);
-    app.post("/node/AddBook",AddBook);
-    app.get("/node/getById/:id",getById);
-    app.delete("/node/DeleteById/:id",DeleteById);
-    app.put("/node/UpdateBYId/:id",UpdateBYId);
+module.exports=(router:any)=>{
+    router.get("/allBooks",findAll);
+    router.post("/AddBook",AddBook);
+    router.get("/getById/:id",getById);
+    router.delete("/DeleteById/:id",DeleteById);
+    router.put("/UpdateBYId/:id",UpdateBYId);
 }

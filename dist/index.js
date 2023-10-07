@@ -9,7 +9,7 @@ const dbConnect_1 = __importDefault(require("./configuration/dbConnect"));
 const uri = 'mongodb://localhost:27017/biblio';
 const connect = new dbConnect_1.default(uri);
 connect.ConnectToBd().then(() => {
-    app_1.default.use('', index_1.default);
+    app_1.default.use('/node', index_1.default);
     connect.server(app_1.default, 3000);
 }).catch((error) => {
     console.log(error);
