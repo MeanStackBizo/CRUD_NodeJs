@@ -14,11 +14,11 @@ const userSchema=new mongoose.Schema({
         type:String,
         required:true
     },
-    Cin:{
+    cin:{
         type:String,
         required:true
     },
-    Photo:{
+    photo:{
         type:String,
         required:true
     }
