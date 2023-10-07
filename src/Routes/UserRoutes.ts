@@ -1,6 +1,6 @@
 const UserController=require("../controller/UserController")
 
 module.exports=(app:any)=>{
-     app.post("/signup",UserController.signup);
-     app.post("/login",UserController.login);
+     app.post("/user/signup",UserController.signup);
+     app.post("/user/login",UserController.login);
 }  
