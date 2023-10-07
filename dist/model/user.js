@@ -18,11 +18,11 @@ const userSchema = new mongoose_1.default.Schema({
         type: String,
         required: true
     },
-    Cin: {
+    cin: {
         type: String,
         required: true
     },
-    Photo: {
+    photo: {
         type: String,
         required: true
     }

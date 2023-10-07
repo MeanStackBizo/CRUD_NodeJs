@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const user_1 = __importDefault(require("../model/user"));
 exports.signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     yield bcrypt
@@ -31,14 +32,28 @@ exports.signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             status: 201
         }))
             .catch(error => res.status(400).json({ error }));
-        // try {
-        //   const savedUser = user.save();
-        //   res.status(201).json({ "message": "User Created" });
-        // } catch (err) {
-        //   res.status(500).json({ message: err });
-        // }
     })
         .catch((error) => {
         res.status(500).json({ message: error });
+    });
+});
+exports.login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    user_1.default.findOne({ email: req.body.email }).then((user) => {
+        if (!user) {
+            res.status(401).json({ error: 'User Not Found' });
+        }
+        bcrypt.compare(req.body.password, user.password).then((valid) => {
+            if (!valid) {
+                res.status(401).json({ error: "Wrong Password" });
+            }
+            res.status(200).json({
+                user: user,
+                token: jwt.sign({ user: user }, 'Token_Secret')
+            });
+        }).catch((error) => {
+            res.status(500).json({ error });
+        });
+    }).catch((error) => {
+        res.status(500).json({ error });
     });
 });
