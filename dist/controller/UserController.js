@@ -15,16 +15,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const user_1 = __importDefault(require("../model/user"));
-exports.signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    yield bcrypt
+exports.signup = (req, res) => {
+    bcrypt
         .hash(req.body.password, 10)
         .then((hash) => {
         const user = new user_1.default({
             name: req.body.name,
             email: req.body.email,
+            cin: req.body.cin,
+            photo: req.body.photo,
             password: hash,
-            Cin: req.body.cin,
-            Photo: req.body.photo,
         });
         user.save()
             .then(() => res.status(201).json({
@@ -36,7 +36,7 @@ exports.signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         .catch((error) => {
         res.status(500).json({ message: error });
     });
-});
+};
 exports.login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     user_1.default.findOne({ email: req.body.email }).then((user) => {
         if (!user) {
