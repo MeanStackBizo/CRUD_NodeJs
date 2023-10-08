@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GetUserAuth = void 0;
 const jwt = require('jsonwebtoken');
-const GetUserAuth = (req, res) => {
+const GetUserAuth = (req) => {
     var _a;
     try {
         const token = (_a = req.header("authorization")) === null || _a === void 0 ? void 0 : _a.substring(7);

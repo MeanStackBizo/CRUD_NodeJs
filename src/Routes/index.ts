@@ -7,6 +7,6 @@ router.use(fetchUser);
 
 require("./booksRoutes")(router);
 require("./UserRoutes")(router);
-// router.get("/profile",profileUser)
+router.get("/profile",profileUser)
 
 export default router;

@@ -1,28 +1,17 @@
 from flask import Flask, request, jsonify
-
-from werkzeug.utils import secure_filename
-
-import os
-
-# from PIL import Image
-# from pytesseract import image_to_string
-# image=Image.open('germanytext.png')
-# text=image_to_string(image,lang='deu')
-# print(text)
-# file=open('output.txt','w')
-# text=repr(text)
-# file.write(text)
-# file.close
-
-
 from flask_cors import CORS
+import os
+import re
+from PIL import Image
+from werkzeug.utils import secure_filename
+from pytesseract import image_to_string
 
 app = Flask(__name__)
 
 CORS(app, origins='http://localhost:4200')
 
-if not os.path.exists('uploads'):
-    os.makedirs('uploads')
+if not os.path.exists(r'C:\Users\talel\Desktop\NodeJs\Crud\PythonIA\uploads'):
+    os.makedirs(r'C:\Users\talel\Desktop\NodeJs\Crud\PythonIA\uploads')
 
 @app.route('/api/upload', methods=['POST'])
 def upload_image():
@@ -35,25 +24,30 @@ def upload_image():
     if filename == '':
         return jsonify({'error': 'No selected file'}), 400
 
-    temp_image_path = os.path.join('uploads', filename)
+    temp_image_path = os.path.join(r'C:\Users\talel\Desktop\NodeJs\Crud\PythonIA\uploads', filename)
     file.save(temp_image_path)
-    print(f'File saved as: {temp_image_path}')
-    extracted_data = extract_text_from_image(temp_image_path)
-
-    return jsonify(extracted_data)
-
-def extract_text_from_image(image_path):
-    import pytesseract
-    pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR'
-    from PIL import Image
-    try:
-        img = Image.open(image_path)
-        text = pytesseract.image_to_string(img)
-        print(f'Extracted text: {text}')
-        return text
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        return None
+    
+    name_pattern = r"الاسم\s*\s*(.*?)\s*[\n<]"
+    surname_pattern = r"اللقب\s*\s*(.*?)\s*[\n<]"
+    id_number_pattern = r"الرقم\s*\s*(.*?)\s*[\n<]"
+    
+    img = Image.open(r'C:\Users\talel\Desktop\NodeJs\Crud\PythonIA\uploads' + '\\' + filename)
+    text = image_to_string(img, lang="ara")
+    name_match = re.search(name_pattern, text)
+    surname_match = re.search(surname_pattern, text)
+    id_number_matches = re.search(id_number_pattern, text)
+    result = {}
+    if name_match and surname_match and id_number_matches:
+        surname = surname_match.group(1)
+        result['LastName']=surname     
+        number = id_number_matches.group(1)
+        result['Number']=number   
+        name = name_match.group(1)
+        result['name']=name
+    else:
+        return jsonify({"error":"Wrong From Cart"}),400
+  
+    return jsonify(result)
 
 if __name__ == '__main__':
     app.run(debug=True)
