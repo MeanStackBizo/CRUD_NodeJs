@@ -15,7 +15,6 @@ if not os.path.exists(r'C:\Users\talel\Desktop\NodeJs\Crud\PythonIA\uploads'):
 
 @app.route('/api/upload', methods=['POST'])
 def upload_image():
-   
     if 'image' not in request.files:
         return jsonify({'error': 'No image provided'}), 400
 
