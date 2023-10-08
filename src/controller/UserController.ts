@@ -3,18 +3,18 @@ const bcrypt=require("bcrypt");
 const jwt=require("jsonwebtoken");
 import User from "../model/user";
 
-exports.signup = async (req: Request, res: Response) => {
-    await bcrypt
+exports.signup =  (req: Request, res: Response) => {
+     bcrypt
       .hash(req.body.password, 10)
       .then((hash: any) => {
         const user = new User({
           name: req.body.name,
           email: req.body.email,
+          cin: req.body.cin,
+          photo: req.body.photo,
           password: hash,
-          Cin: req.body.cin,
-          Photo: req.body.photo,
         });
-              user.save()
+             user.save()
                 .then(() => res.status(201).json({
                   message: 'User created !',
                   status: 201
