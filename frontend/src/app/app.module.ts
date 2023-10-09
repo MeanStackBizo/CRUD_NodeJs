@@ -3,11 +3,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import {HttpClientModule} from "@angular/common/http";
-
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import { InterceptorService } from './Service/interceptor.service';
+import { ProfileComponent } from './profile/profile.component';
+import { IsAuthGuard } from './guard/is-auth.guard';
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -16,7 +19,14 @@ import {HttpClientModule} from "@angular/common/http";
     ReactiveFormsModule
     
   ],
-  providers: [],
+  providers: [
+    IsAuthGuard,
+    {
+      provide:HTTP_INTERCEPTORS,
+      useClass:InterceptorService,
+      multi:true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
