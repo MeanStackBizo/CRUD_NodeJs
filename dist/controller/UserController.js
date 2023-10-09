@@ -7,6 +7,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const user_1 = __importDefault(require("../model/user"));
 const user_2 = __importDefault(require("../model/user"));
+const env_1 = require("../middlewars/env");
 exports.signup = (req, res) => {
     bcrypt
         .hash(req.body.password, 10)
@@ -39,7 +40,7 @@ exports.login = (req, res) => {
                 res.status(404).json({ "message": "Password Ghaleeeet 😒" });
             }
             res.status(200).json({
-                token: jwt.sign({ user: user }, "TokenSecret"),
+                token: jwt.sign({ user: user }, env_1.secretKey),
                 user: user
             });
         }).catch((error) => {
