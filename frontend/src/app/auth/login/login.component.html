@@ -1,2 +1,20 @@
-<p data-aos="fade-down">login works!</p>
-<button [routerLink]="['/auth/register']" >ds</button>
+<div class="container mt-5 py-5"  data-aos="fade-right">
+    <div class="d-flex justify-content-center align-items-center">
+        <form class="shadow-lg p-5 mt-5 rounded" (ngSubmit)="login()">
+             <div  class="alert alert-danger" >
+                     {{messageError}}
+             </div>
+            <h3 class="text-center mb-3">Login</h3>
+            <div>
+                <input name="email" class="form-control mb-2" type="text" placeholder="Email" [(ngModel)]="user.email">
+            </div>
+            <div>
+                <input name="password" class="form-control mb-2" [(ngModel)]="user.password" type="password" placeholder="Password">
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-success">Login</button>
+            </div>
+            <small [routerLink]="['/auth/register']"  >Register</small>
+        </form>
+    </div>
+</div>
