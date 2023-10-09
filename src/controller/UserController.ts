@@ -40,7 +40,8 @@ exports.login=(req:Request,res:Response)=>{
           token:jwt.sign(
               {user:user},
               "TokenSecret"
-          )
+          ),
+          user:user
         })
     }).catch((error:any)=>{
       res.status(500).json({"message":error});
