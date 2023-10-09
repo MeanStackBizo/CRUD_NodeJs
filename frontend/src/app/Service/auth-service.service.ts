@@ -8,14 +8,22 @@ import { tap } from 'rxjs';
 export class AuthServiceService {
  
    public isLoggedIn:Boolean =false;
-   constructor(private http:HttpClient) { }
+   constructor(private http:HttpClient) { 
+    this.isLoggedIn=localStorage.getItem("token")? true :false;
+   }
 
    login(user:any){
     return this.http.post('http://localhost:3000/node/user/login',user).pipe(
       tap((res:any)=>{
         this.isLoggedIn=true;
+        localStorage.setItem("token",res.token);
       })
     )
+   }
+
+
+   getUser(){
+     return this.http.get("http://localhost:3000/node/profile");
    }
 
    
