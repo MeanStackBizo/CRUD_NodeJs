@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 const bcrypt=require("bcrypt");
 const jwt=require("jsonwebtoken");
 import User from "../model/user";
+import user from "../model/user";
 
 exports.signup =  (req: Request, res: Response) => {
      bcrypt
@@ -26,26 +27,25 @@ exports.signup =  (req: Request, res: Response) => {
       });
   };
 
-  exports.login= async (req:Request,res:Response)=>{
-     User.findOne({email:req.body.email}).then((user:any)=>{
-        if(!user){
-            res.status(401).json({error:'User Not Found'});
+exports.login=(req:Request,res:Response)=>{
+  user.findOne({email:req.body.email}).then((user:any)=>{
+    if(!user){
+      res.status(404).json({"message":"User Not Found"});
+    }
+    bcrypt.compare(req.body.password,user.password).then((valid:any)=>{
+        if(!valid){
+          res.status(404).json({"message":"Password Ghaleeeet 😒"})
         }
-        bcrypt.compare(req.body.password,user.password).then((valid:any)=>{
-            if(!valid){
-                res.status(401).json({error:"Wrong Password"})
-            }
-            res.status(200).json({
-                user:user,
-                token:jwt.sign(
-                    {user:user},
-                    'Token_Secret',
-                )
-            })
-        }).catch((error:any)=>{
-            res.status(500).json({error})
-        });
-     }).catch((error:any)=>{
-        res.status(500).json({error})
-     });
-  }
+        res.status(200).json({
+          token:jwt.sign(
+              {user:user},
+              "TokenSecret"
+          )
+        })
+    }).catch((error:any)=>{
+      res.status(500).json({"message":error});
+    })
+  }).catch((error)=>{
+    res.status(500).json({"message":error});
+  })
+}
