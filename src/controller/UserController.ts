@@ -4,6 +4,8 @@ const jwt=require("jsonwebtoken");
 import User from "../model/user";
 import user from "../model/user";
 import {secretKey} from "../middlewars/env"
+
+
 exports.signup =  (req: Request, res: Response) => {
      bcrypt
       .hash(req.body.password, 10)

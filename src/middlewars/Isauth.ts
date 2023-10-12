@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 const jwt = require('jsonwebtoken');
 import {secretKey} from "./env"
+
 export const fetchUser  =  (req:Request, res:Response, next:NextFunction) => {
     if (req.path.includes("user") ){
          next();

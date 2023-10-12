@@ -4,7 +4,7 @@ import { Request, Response } from "express";
 export default class ConnectMongo {
     constructor(private uri: string) {}
 
-    public ConnectToBd(): Promise<void> {
+    public ConnectToBd():Promise<void> {
         return mongoose
             .connect(this.uri)
             .then(() => {
