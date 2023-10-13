@@ -7,6 +7,7 @@ export const findAll=  async (req:Request,res:Response)  => {
      let size:number=parseInt(req.query.size?.toString() || '5');
 
      const search = req.query.search || '';
+     
    try{
           const books=await book.paginate({title:{$regex:".*(?i)"+search+".*"}},{
                page:page,

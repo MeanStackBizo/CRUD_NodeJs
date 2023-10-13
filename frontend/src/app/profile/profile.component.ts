@@ -14,7 +14,8 @@ export class ProfileComponent {
     User:any;
     getUser(){
       this.AuthServiceService.getUser().subscribe((res:any)=>{
-           this.User=res.message.user;
+           this.User=res?.message[0];
       })
     }
+
 }

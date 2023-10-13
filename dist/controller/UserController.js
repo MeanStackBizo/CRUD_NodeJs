@@ -40,7 +40,7 @@ exports.login = (req, res) => {
                 res.status(404).json({ "message": "Password Ghaleeeet 😒" });
             }
             res.status(200).json({
-                token: jwt.sign({ user: user }, env_1.secretKey),
+                token: jwt.sign({ userId: user._id }, env_1.secretKey),
                 user: user
             });
         }).catch((error) => {

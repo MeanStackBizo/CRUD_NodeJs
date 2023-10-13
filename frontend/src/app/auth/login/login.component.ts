@@ -13,14 +13,19 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
       this.ActivatedRoute.queryParams.subscribe((res:any)=>{
-         this.messageError=res['message']
+        if(res['message']){
+          this.messageError=res['message']
+          setTimeout(()=>{
+             this.messageError="";
+             this.Router.navigate([''])
+          },3000);
+        }
       })
-      setTimeout(()=>{
-        this.messageError="";
-        this.Router.navigate([''])
-      },3000);
+    
   }
+
   user:User=new User();
+  
   constructor(private AuthServiceService:AuthServiceService,private Router:Router,private ActivatedRoute:ActivatedRoute){
   }
   

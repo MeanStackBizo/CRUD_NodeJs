@@ -40,7 +40,7 @@ exports.login=(req:Request,res:Response)=>{
         }
         res.status(200).json({
           token:jwt.sign(
-                {user:user},
+                {userId:user._id},
                  secretKey
               ),
           user:user

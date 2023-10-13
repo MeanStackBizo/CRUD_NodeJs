@@ -21,6 +21,7 @@ export class RegisterComponent {
 
   imageError:String=""
   image:String="";
+
   onFileChanged(event: any) {
     const file = event.target.files[0];
     const reader = new FileReader();
@@ -36,27 +37,24 @@ export class RegisterComponent {
   RegisterForm:FormGroup
 
   FileUpload(event:any){
-    this.RegisterForm.value['photo']=event.target.files[0];
+    //this.RegisterForm.value['photo']=event.target.files[0];
     this.onFileChanged(event);
   }
   
-  async Register(){
-    const formdata=new FormData();7
-    formdata.append('image', this.RegisterForm.value['photo']);
-      await this.http.post('http://127.0.0.1:5000//api/upload',formdata).subscribe((res:any)=>{
+   Register(){
+    /*const formdata=new FormData();7
+    formdata.append('image', this.RegisterForm.value['photo']);*/
           this.http.post("http://localhost:3000/node/user/signup",{
             name:this.RegisterForm.value['name'],
             email:this.RegisterForm.value['email'],
             password:this.RegisterForm.value['password'],
-            cin:res.Number,
+            cin:this.RegisterForm.value['cin'],
             photo:this.image
           }).subscribe((res)=>{
               console.log(res);
           },(error)=>{
             console.log(error);
           })
-      },(error)=>{
-        console.log(error);
-      })
+     
   }
 }
