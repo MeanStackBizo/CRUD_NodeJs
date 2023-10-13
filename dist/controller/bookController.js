@@ -15,11 +15,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UpdateBYId = exports.DeleteById = exports.getById = exports.AddBook = exports.findAll = void 0;
 const book_1 = __importDefault(require("../model/book"));
 const findAll = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b;
+    let page = parseInt(((_a = req.query.page) === null || _a === void 0 ? void 0 : _a.toString()) || '1');
+    let size = parseInt(((_b = req.query.size) === null || _b === void 0 ? void 0 : _b.toString()) || '5');
     const search = req.query.search || '';
     try {
-        const books = yield book_1.default.find({ title: { $regex: ".*(?i)" + search + ".*" } }).exec();
-        if (books.length == 0) {
-            res.status(404).json({ "message": "Not Founf" });
+        const books = yield book_1.default.paginate({ title: { $regex: ".*(?i)" + search + ".*" } }, {
+            page: page,
+            limit: size
+        });
+        if (!books) {
+            res.status(404).json({ "message": "Not Found" });
         }
         else {
             res.status(200).json(books);

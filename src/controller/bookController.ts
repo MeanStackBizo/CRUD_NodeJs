@@ -2,11 +2,18 @@ import { Request, Response } from "express";
 import book from "../model/book";
 
 export const findAll=  async (req:Request,res:Response)  => {
-   const search = req.query.search || '';
+
+     let page:number=parseInt(req.query.page?.toString() || '1');
+     let size:number=parseInt(req.query.size?.toString() || '5');
+
+     const search = req.query.search || '';
    try{
-          const books=await book.find({title:{$regex:".*(?i)"+search+".*"}}).exec()
-          if(books.length==0){
-               res.status(404).json({"message":"Not Founf"})
+          const books=await book.paginate({title:{$regex:".*(?i)"+search+".*"}},{
+               page:page,
+               limit:size
+          });
+          if(!books){
+               res.status(404).json({"message":"Not Found"})
           }else{
                res.status(200).json(books);
           }
