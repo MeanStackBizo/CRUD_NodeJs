@@ -1,0 +1,67 @@
+<div class="text-center">
+  <app-profile></app-profile>
+</div>
+<div class="container py-3  ">
+   <h2 class="text-center mb-2">List Of Books</h2>
+<div class="mt-2 mb-2 bottom_nav">
+  <div>
+    <input type="text" class="form-control" placeholder="Seach By Title" (keyup)="GetAllBook()" [(ngModel)]="search">
+  </div>
+  <div>
+    <button class="btn btn-primary" [routerLink]="['/AddBook/'+-1]" >add</button>
+  </div>
+</div>
+<table class="table table-bordered">
+     <thead>
+         <tr class="text-center">
+             <th>#</th>
+             <th>title</th>
+             <th>author</th>
+             <th>Action</th>
+         </tr>
+     </thead>
+     
+     <tbody *ngIf="Books==''">
+        <tr> 
+           <td colspan="7" class="text-center bg-danger" style="color:#fff">Data not Found</td>
+        </tr>
+     </tbody>
+     <tbody>
+         <tr *ngFor="let item of Books" class="text-center">
+                <td>{{item._id}}</td>
+                <td>{{item.title}}</td>
+                <td>{{item.author}}</td>
+                <td class="text-center"> 
+                  <button class="btn btn-danger mx-2" (click)="DeleteBook(item._id,item.title)">delete</button>
+                  <button class="btn btn-warning mx-2" [routerLink]="'/AddBook/'+ item._id">Update</button>
+                  <button class="btn btn-primary" type="button" [routerLink]="'/infoBook/' +item._id">info</button>
+                </td>
+         </tr>
+     </tbody>
+</table>
+<div class="bottom_nav">
+  <div>
+    <nav>
+      <ul class="pagination">
+        <li class="page-item" [class.disabled]="pagination.currentpage === 1">
+          <a class="page-link" (click)="changePages(pagination.currentpage - 1)">Previous</a>
+        </li>
+        <li class="page-item" *ngFor="let item of paginationPages">
+          <a class="page-link" [class.active]="item==pagination.currentpage" (click)="changePages(item)">{{item}}</a>
+        </li>
+        <li class="page-item" [class.disabled]="pagination.currentpage === pagination.total">
+          <a class="page-link" (click)="changePages(pagination.currentpage + 1)">Next</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  <div>
+    <select class="form-control" [(ngModel)]="pagination.per_page" (change)="GetAllBook()">
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="20">20</option>
+    </select>
+  </div>
+</div>
+
+</div>
