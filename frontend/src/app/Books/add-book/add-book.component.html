@@ -1,0 +1,35 @@
+<div class="container mt-5 py-5">
+     <div style="display: flex;justify-content: center;">
+        <form [formGroup]="bookFrom" class="shadow-lg p-5 m-5 rounded" (ngSubmit)="AddBook()">
+            <h3 class="text-center mb-5">
+                 {{IsUpdated ? "Update Book" :"Add Book"}} 
+             </h3>
+            <input type="text"  [formControl]="titleRegister" class="form-control  mb-3" placeholder="title">
+            <small *ngIf="titleRegister.hasError('required')" >
+                 Required Title
+            </small>
+            <input type="text"   [formControl]="authorRegister" class="form-control  mb-3" placeholder="author">
+            <small *ngIf="authorRegister.hasError('required')" >
+                Required Author
+           </small>
+            <input type="text"   [formControl]="priceRegister" class="form-control  mb-3" placeholder="price">
+            <small *ngIf="priceRegister.hasError('required')" >
+                Required Price
+           </small>
+            <input type="date"  [formControl]="DateRegister" class="form-control  mb-3" placeholder="date">
+            <small *ngIf="DateRegister.hasError('required')" >
+                Required Date
+           </small>
+            <div style="display: flex;justify-content: space-between;">
+                    <div>
+                        <button type="submit" [class]="'btn btn-' + (IsUpdated ? 'warning' : 'success')">
+                          {{IsUpdated ? 'Update' :'Add'}}     
+                        </button>
+                    </div>
+                    <div>
+                        <button class="btn btn-secondary" [routerLink]="['/books']" >Close</button>
+                    </div>
+            </div>
+        </form>
+     </div>
+</div>
