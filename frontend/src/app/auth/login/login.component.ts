@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
   login(){
       this.AuthServiceService.login({email:this.user.email,password:this.user.password}).subscribe((res:any)=>{
         console.log(res);
-        this.Router.navigate(['/profile'])
+        this.Router.navigate(['/books'])
       },(error:any)=>{
         console.log(error);
         this.messageError=error.error.message;

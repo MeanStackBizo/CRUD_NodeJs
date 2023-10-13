@@ -9,7 +9,6 @@ import { AddBookComponent } from './Books/add-book/add-book.component';
 const routes: Routes = [
   {path:'',redirectTo:'auth',pathMatch:'full'},
   {path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) },
-  {path:"profile",component:ProfileComponent,canActivate:[IsAuthGuard]},
   {path:"books",component:ConsultebookComponent,canActivate:[IsAuthGuard]},
   {path:"AddBook/:id",component:AddBookComponent,canActivate:[IsAuthGuard]},
   {path:"infoBook/:id",component:InfoBookComponent,canActivate:[IsAuthGuard]},
