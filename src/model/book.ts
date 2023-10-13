@@ -10,6 +10,20 @@ let bookSchema=new mongoose.Schema({
         type:String,
         required:true
     },
+    price:{
+        type:Number,
+        required:false
+    },
+    available:{
+        type:Boolean,
+        requires:true,
+        default:false
+    },
+    publishingDate:{
+        type:Date,
+        required:true,
+        default:Date.now
+    }
 })
 
 const book=mongoose.model("book",bookSchema)

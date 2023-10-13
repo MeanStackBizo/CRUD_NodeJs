@@ -2,23 +2,27 @@ import { Request, Response } from "express";
 import book from "../model/book";
 
 export const findAll=  async (req:Request,res:Response)  => {
+   const search = req.query.search || '';
    try{
-        const books=await book.find().exec();
-        res.status(200).json(books);
+          const books=await book.find({title:{$regex:".*(?i)"+search+".*"}}).exec()
+          if(books.length==0){
+               res.status(404).json({"message":"Not Founf"})
+          }else{
+               res.status(200).json(books);
+          }
    }catch(err){
         res.status(500).json({"message":"Internal Server"});
    }
 }
 
 export const AddBook =  async (req:Request,res:Response)=>{
-     const {title,author}=req.body;
-     if(!title || !author){
+     if(!req.body.title || !req.body.author || !req.body.price){
           res.status(400).json({"message":"Required"})
      }
-     const newbook=new book({title,author});
+     const newbook=new book(req.body);
      try{
-          const savebook= await newbook.save();
-          res.status(201).json(savebook);
+          await newbook.save();
+          res.status(201).json(newbook);
      }catch(err){
           res.status(400).json({message : err })
      }
@@ -48,7 +52,7 @@ export const DeleteById = async (req: Request, res: Response) => {
      }
    }
 
-   export const UpdateBYId=async (req:Request,res:Response)=>{
+export const UpdateBYId=async (req:Request,res:Response)=>{
      try{
           const updatedBook=await book.findByIdAndUpdate(req.params.id,req.body,{new:true})
           if(!updatedBook){
@@ -58,4 +62,4 @@ export const DeleteById = async (req: Request, res: Response) => {
      }catch(er){
           res.status(500).json({ message: er }); 
      }
-   }
+}

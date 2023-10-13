@@ -15,9 +15,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UpdateBYId = exports.DeleteById = exports.getById = exports.AddBook = exports.findAll = void 0;
 const book_1 = __importDefault(require("../model/book"));
 const findAll = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const search = req.query.search || '';
     try {
-        const books = yield book_1.default.find().exec();
-        res.status(200).json(books);
+        const books = yield book_1.default.find({ title: { $regex: ".*(?i)" + search + ".*" } }).exec();
+        if (books.length == 0) {
+            res.status(404).json({ "message": "Not Founf" });
+        }
+        else {
+            res.status(200).json(books);
+        }
     }
     catch (err) {
         res.status(500).json({ "message": "Internal Server" });
@@ -25,14 +31,13 @@ const findAll = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.findAll = findAll;
 const AddBook = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { title, author } = req.body;
-    if (!title || !author) {
+    if (!req.body.title || !req.body.author || !req.body.price) {
         res.status(400).json({ "message": "Required" });
     }
-    const newbook = new book_1.default({ title, author });
+    const newbook = new book_1.default(req.body);
     try {
-        const savebook = yield newbook.save();
-        res.status(201).json(savebook);
+        yield newbook.save();
+        res.status(201).json(newbook);
     }
     catch (err) {
         res.status(400).json({ message: err });

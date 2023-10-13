@@ -14,6 +14,20 @@ let bookSchema = new mongoose_1.default.Schema({
         type: String,
         required: true
     },
+    price: {
+        type: Number,
+        required: false
+    },
+    available: {
+        type: Boolean,
+        requires: true,
+        default: false
+    },
+    publishingDate: {
+        type: Date,
+        required: true,
+        default: Date.now
+    }
 });
 const book = mongoose_1.default.model("book", bookSchema);
 exports.default = book;
