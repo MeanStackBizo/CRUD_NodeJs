@@ -1,0 +1,25 @@
+<div class="container mt-5 py-5">
+    <div class="card">
+            <div class="card-header">
+            {{book?.title}}
+          </div>
+          <div class="card-body">
+                <div class="card-text">
+                    Author : {{book?.author}}
+                </div>
+                <div class="card-text">
+                    price : {{book?.price}}
+                </div>
+                <div class="card-text">
+                    available : {{book?.available ? 'available' : "not available"}}
+                </div>
+                <div class="card-text">
+                    publishingDate : {{book?.publishingDate}}
+                </div>
+          </div>
+          <div class="text-center mb-2">
+            <button [routerLink]="['/books']" class="btn btn-secondary">back</button>
+          </div>
+        
+    </div>
+</div>
